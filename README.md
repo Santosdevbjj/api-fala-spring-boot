@@ -89,7 +89,7 @@ compose.yaml                    # MySQL 8.4 para desenvolvimento (porta 3307)
 
 ---
 
-## 6. Metodologia aplicada (11 passos adaptados à engenharia de software)
+## 6. Metodologia aplicada
 
 O roteiro de 11 passos de projetos preditivos inclui EDA, *scaling* e MAE/RMSE. Esta API não tem dataset analítico nem modelo preditivo, então adaptei a sequência mantendo o foco em **problema, baseline, evidência e resultado**:
 
