@@ -1,11 +1,3 @@
-transcriptionModel.transcribe(new ByteArrayResource(audio.getBytes()) { ... })
-```[cite: 12]
-
-É por isso que o compilador avisou `upper bounds: Resource,Object`: o método `transcribe(...)` usado na sua classe aceita `org.springframework.core.io.Resource` e retorna diretamente a `String` transcrita (e não `AudioTranscriptionPrompt` / `AudioTranscriptionResponse`)![cite: 12]
-
-### `src/test/java/br/com/ciandt/budget/api/AssistantControllerTest.java` corrigido para substituir direto
-
-```java
 package br.com.ciandt.budget.api;
 
 import static org.mockito.ArgumentMatchers.any;
