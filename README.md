@@ -201,11 +201,9 @@ O projeto exercita a separação entre regras de negócio, integração de IA e 
 4. Instrumentar latência, falhas de transcrição e precisão das categorias sem registrar áudio ou dados financeiros em logs.
 5. Criar cobertura de testes para domínio, casos de uso, API e integração de persistência.
 
-## Autoria e referências do projeto
-
-Implementação preparada como base didática para o bootcamp CI&T Java AI Copilot, aplicando separação de responsabilidades e um README orientado a explicar problema, objetivo, decisões e limites do sistema.
 
 ---
+
 **Autor:** Sérgio Santos — Cientista de Dados | Ambientes Críticos e Governança de Dados
 
 [![Portfólio Sérgio Santos](https://img.shields.io/badge/Portfólio-Sérgio_Santos-111827?style=for-the-badge&logo=githubpages&logoColor=00eaff)](https://portfoliosantossergio.vercel.app)
