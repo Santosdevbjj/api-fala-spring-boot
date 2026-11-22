@@ -1,3 +1,20 @@
+## Bootcamp CI&T - Java AI Copilot.
+
+<img width="120" height="120" alt="1000136548" src="https://github.com/user-attachments/assets/21424bbb-9cad-455d-ad9a-b916433a2487" />
+
+---
+
+## DESCRIÇÃO:
+
+- Desenvolver uma API Inteligente com Spring Boot e Spring AI, capaz de interpretar comandos de voz, transformar áudio em texto, acionar funções reais da aplicação e gerar respostas em áudio para a pessoa usuária. 
+
+- Neste projeto, você vai evoluir uma aplicação de orçamento financeiro que integra IA Generativa a uma arquitetura Java bem organizada, explorando conceitos como ChatClient, Tool Calling, transcrição de áudio, síntese de voz, persistência de dados e exposição de endpoints REST. 
+
+-  Ao final, você terá uma solução prática que demonstra como conectar modelos de IA a fluxos reais de negócio, mantendo boas práticas de desenvolvimento, separação de responsabilidades e uma base sólida para novas evoluções.
+
+---
+
+
 # API Inteligente de Orçamento com Spring Boot
 
 API REST de controle financeiro pessoal que recebe despesas por JSON ou por voz, interpreta pedidos em português com Spring AI, executa operações reais de consulta e gravação por *tool calling* e pode responder em áudio.
