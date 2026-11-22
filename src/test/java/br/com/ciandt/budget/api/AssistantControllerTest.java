@@ -121,10 +121,11 @@ class AssistantControllerTest {
 
         TranscriptionModel transcriptionModel = mock(TranscriptionModel.class);
         AudioTranscriptionResponse transcriptionResponse = mock(AudioTranscriptionResponse.class);
-        AudioTranscriptionResult transcriptionResult = mock(AudioTranscriptionResult.class);
+        AudioTranscription transcriptionResult = mock(AudioTranscription.class);
         when(transcriptionModel.transcribe(any(AudioTranscriptionPrompt.class))).thenReturn(transcriptionResponse);
         when(transcriptionResponse.getResult()).thenReturn(transcriptionResult);
         when(transcriptionResult.getOutput()).thenReturn(transcriptText);
+
 
         TextToSpeechModel speechModel = mock(TextToSpeechModel.class);
         when(speechModel.call(anyString())).thenReturn(mp3Bytes);
