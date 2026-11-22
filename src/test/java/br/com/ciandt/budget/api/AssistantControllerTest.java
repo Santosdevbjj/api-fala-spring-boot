@@ -1,3 +1,11 @@
+transcriptionModel.transcribe(new ByteArrayResource(audio.getBytes()) { ... })
+```[cite: 12]
+
+É por isso que o compilador avisou `upper bounds: Resource,Object`: o método `transcribe(...)` usado na sua classe aceita `org.springframework.core.io.Resource` e retorna diretamente a `String` transcrita (e não `AudioTranscriptionPrompt` / `AudioTranscriptionResponse`)![cite: 12]
+
+### `src/test/java/br/com/ciandt/budget/api/AssistantControllerTest.java` corrigido para substituir direto
+
+```java
 package br.com.ciandt.budget.api;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -22,12 +30,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
-import org.springframework.ai.audio.transcription.AudioTranscription;
-import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
-import org.springframework.ai.audio.transcription.AudioTranscriptionResponse;
 import org.springframework.ai.audio.transcription.TranscriptionModel;
 import org.springframework.ai.audio.tts.TextToSpeechModel;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -118,11 +124,7 @@ class AssistantControllerTest {
         when(responseSpec.content()).thenReturn(chatAnswer);
 
         TranscriptionModel transcriptionModel = mock(TranscriptionModel.class);
-        AudioTranscriptionResponse transcriptionResponse = mock(AudioTranscriptionResponse.class);
-        AudioTranscription transcriptionResult = mock(AudioTranscription.class);
-        when(transcriptionModel.transcribe(any(AudioTranscriptionPrompt.class))).thenReturn(transcriptionResponse);
-        when(transcriptionResponse.getResult()).thenReturn(transcriptionResult);
-        when(transcriptionResult.getOutput()).thenReturn(transcriptText);
+        when(transcriptionModel.transcribe(any(Resource.class))).thenReturn(transcriptText);
 
         TextToSpeechModel speechModel = mock(TextToSpeechModel.class);
         when(speechModel.call(anyString())).thenReturn(mp3Bytes);
