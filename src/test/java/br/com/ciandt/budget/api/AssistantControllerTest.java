@@ -22,14 +22,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
-import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
-import org.springframework.ai.audio.transcription.AudioTranscriptionResponse;
-import org.springframework.ai.audio.tts.TextToSpeechModel;
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.audio.transcription.AudioTranscription;
 import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.audio.transcription.AudioTranscriptionResponse;
 import org.springframework.ai.audio.transcription.TranscriptionModel;
+import org.springframework.ai.audio.tts.TextToSpeechModel;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -125,7 +123,6 @@ class AssistantControllerTest {
         when(transcriptionModel.transcribe(any(AudioTranscriptionPrompt.class))).thenReturn(transcriptionResponse);
         when(transcriptionResponse.getResult()).thenReturn(transcriptionResult);
         when(transcriptionResult.getOutput()).thenReturn(transcriptText);
-
 
         TextToSpeechModel speechModel = mock(TextToSpeechModel.class);
         when(speechModel.call(anyString())).thenReturn(mp3Bytes);
