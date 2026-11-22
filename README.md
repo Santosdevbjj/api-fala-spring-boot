@@ -180,6 +180,34 @@ src/main/resources/
 compose.yaml                   # Banco MySQL de desenvolvimento
 ```
 
+
+## Testes Automatizados
+
+A suíte de testes foi estruturada com **JUnit 5** (`useJUnitPlatform()`)[span_1](start_span)[span_1](end_span) para validar as camadas centrais da aplicação sem depender de rede externa ou banco de dados de produção[span_2](start_span)[span_2](end_span):
+
+- **Domínio (`src/test/java/br/com/ciandt/budget/domain/TransactionTest.java`):** valida a criação normalizada via `Transaction.create(...)` (geração de `UUID`, `trim` na `description`, `amountCents` e `occurredAt`) e o bloqueio de valores inválidos (`description` em branco ou `amountCents <= 0`)[span_3](start_span)[span_3](end_span).
+- **Casos de uso (`src/test/java/br/com/ciandt/budget/application/CreateTransactionUseCaseTest.java` e `ListTransactionsUseCaseTest.java`):** verificam o registro de despesas, a não persistência quando a validação de domínio falha e a listagem completa ou filtrada por `Category` (`GROCERIES`, `FARMA`, `AUTO`, `OTHER`)[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span).
+- **Ferramentas do assistente (`src/test/java/br/com/ciandt/budget/application/TransactionToolsTest.java`):** testam `registerExpense` (incluindo fallback para `Category.OTHER` quando a categoria é nula) e `listExpenses` expostas ao modelo via `@Tool`[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span).
+- **Camada HTTP (`src/test/java/br/com/ciandt/budget/api/TransactionControllerTest.java` e `AssistantControllerTest.java`):** validam `POST /api/v1/transactions`, `GET /api/v1/transactions` (com filtro por categoria), `POST /api/v1/assistant/text`, `POST /api/v1/assistant/voice` (upload `multipart/form-data` retornando `audio/mpeg`) e o tratamento de erros em `ApiExceptionHandler`[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span).
+- **Persistência JPA com H2 (`src/test/java/br/com/ciandt/budget/infrastructure/persistence/TransactionRepositoryAdapterTest.java` e `src/test/resources/application-test.properties`):** testam `save`, `findById`, `findAll` e `findByCategory` com ordenação decrescente por `occurredAt` sobre banco H2 em memória[span_17](start_span)[span_17](end_span)[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span).
+
+### Como executar os testes
+
+
+## Testes Automatizados
+
+A suíte de testes foi estruturada com **JUnit 5** (`useJUnitPlatform()`)[span_1](start_span)[span_1](end_span) para validar as camadas centrais da aplicação sem depender de rede externa ou banco de dados de produção[span_2](start_span)[span_2](end_span):
+
+- **Domínio (`src/test/java/br/com/ciandt/budget/domain/TransactionTest.java`):** valida a criação normalizada via `Transaction.create(...)` (geração de `UUID`, `trim` na `description`, `amountCents` e `occurredAt`) e o bloqueio de valores inválidos (`description` em branco ou `amountCents <= 0`)[span_3](start_span)[span_3](end_span).
+- **Casos de uso (`src/test/java/br/com/ciandt/budget/application/CreateTransactionUseCaseTest.java` e `ListTransactionsUseCaseTest.java`):** verificam o registro de despesas, a não persistência quando a validação de domínio falha e a listagem completa ou filtrada por `Category` (`GROCERIES`, `FARMA`, `AUTO`, `OTHER`)[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span).
+- **Ferramentas do assistente (`src/test/java/br/com/ciandt/budget/application/TransactionToolsTest.java`):** testam `registerExpense` (incluindo fallback para `Category.OTHER` quando a categoria é nula) e `listExpenses` expostas ao modelo via `@Tool`[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span).
+- **Camada HTTP (`src/test/java/br/com/ciandt/budget/api/TransactionControllerTest.java` e `AssistantControllerTest.java`):** validam `POST /api/v1/transactions`, `GET /api/v1/transactions` (com filtro por categoria), `POST /api/v1/assistant/text`, `POST /api/v1/assistant/voice` (upload `multipart/form-data` retornando `audio/mpeg`) e o tratamento de erros em `ApiExceptionHandler`[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span).
+- **Persistência JPA com H2 (`src/test/java/br/com/ciandt/budget/infrastructure/persistence/TransactionRepositoryAdapterTest.java` e `src/test/resources/application-test.properties`):** testam `save`, `findById`, `findAll` e `findByCategory` com ordenação decrescente por `occurredAt` sobre banco H2 em memória[span_17](start_span)[span_17](end_span)[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span).
+
+
+
+
+
 ## Boas práticas e limites atuais
 
 - A IA só consegue executar as operações expostas em `TransactionTools`; não recebe acesso direto ao banco.
@@ -189,9 +217,41 @@ compose.yaml                   # Banco MySQL de desenvolvimento
 - Valores de saída da ferramenta são retornados ao modelo para compor uma resposta. Revise limites, tratamento de repetição/idempotência e confirmação de intenção antes de uso financeiro real.
 - Auditoria de áudio, autenticação, limites por usuário, observabilidade e migrações são caminhos de evolução, não funcionalidades já implementadas.
 
+
+
+---
+
+## Testes Automatizados
+
+A suíte de testes foi estruturada com **JUnit 5** (`useJUnitPlatform()`)[span_1](start_span)[span_1](end_span) para validar as camadas centrais da aplicação sem depender de rede externa ou banco de dados de produção[span_2](start_span)[span_2](end_span):
+
+- **Domínio (`src/test/java/br/com/ciandt/budget/domain/TransactionTest.java`):** valida a criação normalizada via `Transaction.create(...)` (geração de `UUID`, `trim` na `description`, `amountCents` e `occurredAt`) e o bloqueio de valores inválidos (`description` em branco ou `amountCents <= 0`)[span_3](start_span)[span_3](end_span).
+- **Casos de uso (`src/test/java/br/com/ciandt/budget/application/CreateTransactionUseCaseTest.java` e `ListTransactionsUseCaseTest.java`):** verificam o registro de despesas, a não persistência quando a validação de domínio falha e a listagem completa ou filtrada por `Category` (`GROCERIES`, `FARMA`, `AUTO`, `OTHER`)[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span).
+- **Ferramentas do assistente (`src/test/java/br/com/ciandt/budget/application/TransactionToolsTest.java`):** testam `registerExpense` (incluindo fallback para `Category.OTHER` quando a categoria é nula) e `listExpenses` expostas ao modelo via `@Tool`[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span).
+- **Camada HTTP (`src/test/java/br/com/ciandt/budget/api/TransactionControllerTest.java` e `AssistantControllerTest.java`):** validam `POST /api/v1/transactions`, `GET /api/v1/transactions` (com filtro por categoria), `POST /api/v1/assistant/text`, `POST /api/v1/assistant/voice` (upload `multipart/form-data` retornando `audio/mpeg`) e o tratamento de erros em `ApiExceptionHandler`[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span).
+- **Persistência JPA com H2 (`src/test/java/br/com/ciandt/budget/infrastructure/persistence/TransactionRepositoryAdapterTest.java` e `src/test/resources/application-test.properties`):** testam `save`, `findById`, `findAll` e `findByCategory` com ordenação decrescente por `occurredAt` sobre banco H2 em memória[span_17](start_span)[span_17](end_span)[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span).
+
+### Como executar os testes
+
+Na raiz do repositório, execute:
+
+```bash
+./gradlew test
+```
+
+
+
+
+---
+
+
+
+
 ## Aprendizados técnicos
 
 O projeto exercita a separação entre regras de negócio, integração de IA e persistência: o modelo escolhe entre ferramentas restritas, mas os casos de uso validam e gravam transações; o domínio representa dinheiro sem ponto flutuante; e a API pode trocar H2 por MySQL sem alterar o contrato do domínio. Uma evolução importante é validar o fluxo com testes e interações reais antes de tomar decisões de produção, especialmente por envolver dados financeiros e chamadas não determinísticas a modelos.
+
+
 
 ## Próximos passos
 
