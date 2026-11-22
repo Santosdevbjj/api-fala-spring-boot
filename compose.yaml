@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: budget-mysql
+    environment:
+      MYSQL_DATABASE: budget
+      MYSQL_USER: budget
+      MYSQL_PASSWORD: budget
+      MYSQL_ROOT_PASSWORD: local-root-only
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ubudget", "-pbudget"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  mysql-data:
