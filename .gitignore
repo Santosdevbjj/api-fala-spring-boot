@@ -1,7 +1,25 @@
+# Gradle & Build
 .gradle/
 build/
 out/
+
+# IntelliJ IDEA & VS Code
 .idea/
 *.iml
+.vscode/
+!*.code-workspace
+
+# Variáveis de ambiente e segredos
 .env
+*.local
 !*.env.example
+
+# Logs e áudios temporários locais
+*.log
+/tmp/
+resposta.mp3
+assistant-response.mp3
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
